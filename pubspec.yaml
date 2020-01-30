@@ -37,6 +37,8 @@ flutter:
     - assets/flares/interruptorCircadiano.flr
     - assets/flares/space_vaporwave.flr
     - assets/flares/space_demo.flr
+    - assets/flares/telaDeFundoAnimada.flr
+    - assets/flares/capivara.flr
   fonts:
     - family: PressP2
       fonts:

@@ -17,9 +17,10 @@ class _VapowaveSpaceState extends State<VapowaveSpace> {
     return Scaffold(
         backgroundColor: Colors.deepPurple[900],
         body: Center(
-            child: FlareActor(
-              "assets/flares/space_vaporwave.flr",
-              alignment:Alignment.center, fit:BoxFit.contain, animation:"space'84")));
+            child: FlareActor("assets/flares/space_vaporwave.flr",
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: "space'84")));
   }
 }
 
@@ -38,31 +39,35 @@ class _InterruptorCicardianoState extends State<InterruptorCicardiano> {
   @override
   Widget build(BuildContext context) {
     return Container(
-       child: FlareActor(
-         'assets/flares/interruptorCircadiano.flr',
-         animation: _diaOuNoite,
-         ),
+      child: FlareActor(
+        'assets/flares/interruptorCircadiano.flr',
+        animation: _diaOuNoite,
+      ),
     );
   }
 }
 
-
-///-=-=-=-=-=-=-=-=-=-=
-
-class Space_copy extends StatefulWidget {
-  Space_copy({Key key}) : super(key: key);
+class Capibara extends StatefulWidget {
+  Capibara({Key key}) : super(key: key);
 
   @override
-  _Space_copyState createState() => _Space_copyState();
+  _CapibaraState createState() => _CapibaraState();
 }
 
-class _Space_copyState extends State<Space_copy> {
+class _CapibaraState extends State<Capibara> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-       child: FlareActor(
-         'assets/flares/space_vaporwave.flr', 
-         animation: "space'84",),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverFillRemaining(
+          child: Container(
+            color: Colors.amber[600],
+          child: FlareActor(
+        'assets/flares/capivara.flr',
+        animation: "move",
+      )),
+        )
+      ],
     );
   }
 }
