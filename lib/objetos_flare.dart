@@ -45,3 +45,24 @@ class _InterruptorCicardianoState extends State<InterruptorCicardiano> {
     );
   }
 }
+
+
+///-=-=-=-=-=-=-=-=-=-=
+
+class Space_copy extends StatefulWidget {
+  Space_copy({Key key}) : super(key: key);
+
+  @override
+  _Space_copyState createState() => _Space_copyState();
+}
+
+class _Space_copyState extends State<Space_copy> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+       child: FlareActor(
+         'assets/flares/space_vaporwave.flr', 
+         animation: "space'84",),
+    );
+  }
+}

@@ -11,8 +11,9 @@ dependencies:
     sdk: flutter
   custom_splash: ^0.0.2
   flip_card: ^0.4.4
-  flare_flutter: ^2.0.1
+  flare_flutter: ^1.8.3
   simple_animations: ^1.3.4
+  cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +36,7 @@ flutter:
     - assets/ic_launcher.png
     - assets/flares/interruptorCircadiano.flr
     - assets/flares/space_vaporwave.flr
+    - assets/flares/space_demo.flr
   fonts:
     - family: PressP2
       fonts:

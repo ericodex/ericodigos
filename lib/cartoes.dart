@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'objetos_flare.dart';
 
 class CartoesApresentacao extends StatefulWidget {
   CartoesApresentacao({Key key}) : super(key: key);
@@ -40,12 +41,10 @@ class _CartoesApresentacaoState extends State<CartoesApresentacao> {
                 ),
                 back: Container(
                   alignment: Alignment.center,
-                  color: Colors.blueGrey[600],
+                  color: Colors.transparent,
                   child: Padding(
                     padding: const EdgeInsets.all(14.0),
-                    child: Text(
-                        'Eric Oliveira Lima\n\nericol@outlook.com.br\n\n+55 034 988047387',
-                        textAlign: TextAlign.center,),
+                    child: Space_copy(),
                   ),
                 ),
               ),
@@ -86,6 +85,107 @@ class _CartoesApresentacaoState extends State<CartoesApresentacao> {
 
         ],
       ),
+    );
+  }
+}
+
+class Botoes extends StatelessWidget {
+  Botoes({Key key}) : super(key: key);
+
+  isEnoughRoomForTypewriter(width) => width > 20;
+  static final boxDecoration = BoxDecoration(
+
+      boxShadow: [
+        BoxShadow(
+            color: Colors.transparent,)
+      ]);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Ink(
+          child: IconButton(
+            iconSize: 40,
+            tooltip: 'Space!!!',
+            icon: Icon(Icons.android),
+            color: Colors.greenAccent,
+            onPressed: () {
+              //-------------------------------------
+              Navigator.push(
+                  context,
+                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
+                  MaterialPageRoute(builder: (context) => Space_copy()));
+              //-------------------------------------
+            },
+          ),
+        ),
+        Ink(
+          child: IconButton(
+            icon: Icon(Icons.cloud_upload),
+            color: Colors.greenAccent,
+            iconSize: 40,
+            onPressed: () {
+              //-------------------------------------
+              Navigator.push(
+                  context,
+                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
+                  MaterialPageRoute(
+                      builder: (context) => InterruptorCicardiano()));
+              //-------------------------------------
+            },
+          ),
+        ),
+        Ink(
+          child: IconButton(
+            icon: Icon(Icons.fiber_new),
+            color: Colors.greenAccent,
+            iconSize: 40,
+            onPressed: () {
+              //-------------------------------------
+              Navigator.push(
+                  context,
+                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
+                  MaterialPageRoute(
+                      builder: (context) => InterruptorCicardiano()));
+              //-------------------------------------
+            },
+          ),
+        ),
+        Ink(
+          child: IconButton(
+            icon: Icon(Icons.code),
+            color: Colors.greenAccent,
+            iconSize: 40,
+            onPressed: () {
+              //-------------------------------------
+              Navigator.push(
+                  context,
+                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
+                  MaterialPageRoute(
+                      builder: (context) => InterruptorCicardiano()));
+              //-------------------------------------
+            },
+          ),
+        ),
+        Ink(
+          child: IconButton(
+            icon: Icon(Icons.phone_iphone),
+            color: Colors.greenAccent,
+            iconSize: 40,
+            onPressed: () {
+              //-------------------------------------
+              Navigator.push(
+                  context,
+                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
+                  MaterialPageRoute(
+                      builder: (context) => InterruptorCicardiano()));
+              //-------------------------------------
+            },
+          ),
+        ),
+      ],
+      
     );
   }
 }
