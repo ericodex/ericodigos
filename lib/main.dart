@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'dart:async';
-import 'dart:math' show Random;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,8 +16,6 @@ import 'package:flare_flutter/flare_controller.dart';
 import 'package:flip_card/flip_card.dart';
 import 'objetos_flare.dart';
 
-import 'contacts.dart';
-
 void main() async => runApp(MeuAplicativo());
 
 class MeuAplicativo extends StatelessWidget {
@@ -30,7 +27,7 @@ class MeuAplicativo extends StatelessWidget {
         theme: ThemeData(
             brightness: Brightness.dark,
             platform: TargetPlatform.iOS,
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.grey[800],
             primaryColor: Colors.blueGrey,
             fontFamily: 'PressP2'),
         home: CustomSplash(
@@ -43,54 +40,6 @@ class MeuAplicativo extends StatelessWidget {
           type: CustomSplashType.StaticDuration,
           outputAndHome: op,
         ));
-  }
-}
-
-class PaginaInicial extends StatefulWidget {
-  @override
-  _PaginaInicialState createState() => _PaginaInicialState();
-}
-
-class _PaginaInicialState extends State<PaginaInicial> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: CustomScrollView(slivers: <Widget>[
-          SliverAppBar(
-            pinned: false,
-            backgroundColor: Colors.transparent,
-            expandedHeight: 10,
-            floating: false,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Box(),
-            ),
-          ),
-
-          ///
-
-          SliverFillRemaining(
-            fillOverscroll: false,
-            child: SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Botoes(),
-                      ],
-                    ),
-
-                    /// -> Cartões
-                    CartoesApresentacao(),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ]));
   }
 }
 
@@ -154,16 +103,6 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
   @override
   void initState() {
     super.initState();
-    repopulateList();
-  }
-
-  void repopulateList() {
-    final Random random = Random();
-    randomizedContacts = List<List<String>>.generate(100, (int index) {
-      return contacts[random.nextInt(contacts.length)]
-        // Randomly adds a telephone icon next to the contact or not.
-        ..add(random.nextBool().toString());
-    });
   }
 
   Widget buildRefreshWidget(
@@ -194,28 +133,30 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
       ),
       child: Scaffold(
         body: DecoratedBox(
-          decoration: const BoxDecoration(color: Colors.black),
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
           child: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
-                pinned: false,
-                backgroundColor: Colors.grey[800],
+                pinned: true,
+                backgroundColor: Colors.transparent,
                 expandedHeight: 100,
-                floating: false,
+                floating: true,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Box(),
                 ),
               ),
               CupertinoSliverRefreshControl(
-                refreshTriggerPullDistance: 190.0,
-                refreshIndicatorExtent: 190.0,
+                refreshTriggerPullDistance: 150.0,
+                refreshIndicatorExtent: 150.0,
                 builder: buildRefreshWidget,
                 onRefresh: () {
                   return Future<void>.delayed(const Duration(seconds: 5))
                     ..then<void>((_) {
                       if (mounted) {
-                        setState(() => repopulateList());
+                        print('oinh Er1c0d3!');
                       }
                     });
                 },
@@ -234,7 +175,7 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                                 Botoes(),
                               ],
                             ),
-                            color: Colors.grey[800],
+                            color: Colors.black,
                           ),
 
                           /// -> Cartões
@@ -242,7 +183,7 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                         ],
                       );
                     },
-                    childCount: 20,
+                    childCount: 1,
                   ),
                 ),
               ),
@@ -364,62 +305,84 @@ class _CartoesApresentacaoState extends State<CartoesApresentacao> {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
             child: AspectRatio(
               aspectRatio: 9 / 9,
-              child: FlipCard(
-                direction: FlipDirection.HORIZONTAL, // default
-                front: Container(
-                  alignment: Alignment.center,
-                  color: Colors.black,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Text(
-                      'Engenheiro e arquiteto de Software. \n\nDesenvolvimento de sistemas Web Cross Plataform de base única.\n\nApps Android e IOS Nativos, Web Sites e aplicativos desktop programados com Dart e Flutter.\n\nSoluções arquitetadas, 100% customizaveis para um novo nível Bussines Intelligence.',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 12, height: 1.3, color: Colors.blue[100]),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                child: FlipCard(
+                  direction: FlipDirection.HORIZONTAL, // default
+                  front: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Center(
+                        child: Text(
+                          'Engenheiro e arquiteto de Software. \n\nDesenvolvimento de sistemas Web Cross Plataform de base única.\n\nApps Android e IOS Nativos, Web Sites e aplicativos desktop programados com Dart e Flutter.\n\nSoluções arquitetadas, 100% customizaveis para um novo nível Business Intelligence.',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 12,
+                              height: 1.3,
+                              color: Colors.blue[100]),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                back: Container(
-                  alignment: Alignment.center,
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Container(
-                      height: 300,
-                      child: Capibara(),
-                      
+                  back: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 300,
+                          child: Capibara(),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          
+          ),
+
           //
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
             child: AspectRatio(
-              aspectRatio: 14 / 9,
-              child: FlipCard(
-                direction: FlipDirection.VERTICAL, // default
-                front: Container(
-                  alignment: Alignment.center,
-                  color: Colors.black,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Text(
-                      'knowledge em: Full-Stack, Dart, Python, Typescript, CSS, .net, flr, SQL, MongoDB, Dax, GIT, SVN, Qlikview, Pentaho, VBA and Excel.\n\nBach Wise Computation, TensorFlow, Pythorch.\n\nContatos no verso!',
-                      style: TextStyle(
-                          fontSize: 12, height: 1.3, color: Colors.blue[100]),
+              aspectRatio: 11 / 9,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FlipCard(
+                  direction: FlipDirection.VERTICAL, // default
+                  front: Container(
+                    height: 400,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Center(
+                        child: Text(
+                          '10 anos de experiência em programação. \n\nFull-Stack, Dart, Python, Typescript, .net, flr, SQL, MongoDB, Dax, GIT, Qlikview, Pentaho, VBA e Excel.\n\nBach Wise Computation, TensorFlow e Keras.\n\nContatos no verso!',
+                          style: TextStyle(
+                              fontSize: 12, height: 1.3, color: Colors.blue[100]),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                back: Container(
-                  alignment: Alignment.center,
-                  color: Colors.blueGrey,
-                  child: Text(
-                    'Eric Oliveira Lima\n\nericol@outlook.com.br\n\n+55 034 988047387',
-                    textAlign: TextAlign.center,
+                  back: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blueGrey,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Center(
+                      child: Text(
+                        'Eric Oliveira Lima\n\nericol@outlook.com.br\n\n+55 034 988047387',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -450,12 +413,11 @@ class Botoes extends StatelessWidget {
             iconSize: 40,
             tooltip: 'Space!!!',
             icon: Icon(Icons.android),
-            color: Colors.greenAccent,
+            color: Colors.blue[400],
             onPressed: () {
               //-------------------------------------
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Capibara()));
+                  context, MaterialPageRoute(builder: (context) => Osmium()));
               //-------------------------------------
             },
           ),
@@ -463,7 +425,7 @@ class Botoes extends StatelessWidget {
         Ink(
           child: IconButton(
             icon: Icon(Icons.cloud_upload),
-            color: Colors.greenAccent,
+            color: Colors.blue[400],
             iconSize: 40,
             onPressed: () {
               //-------------------------------------
@@ -479,7 +441,7 @@ class Botoes extends StatelessWidget {
         Ink(
           child: IconButton(
             icon: Icon(Icons.fiber_new),
-            color: Colors.greenAccent,
+            color: Colors.blue[400],
             iconSize: 40,
             onPressed: () {
               //-------------------------------------
@@ -495,13 +457,12 @@ class Botoes extends StatelessWidget {
         Ink(
           child: IconButton(
             icon: Icon(Icons.code),
-            color: Colors.greenAccent,
+            color: Colors.blue[400],
             iconSize: 40,
             onPressed: () {
               //-------------------------------------
               Navigator.push(
                   context,
-                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
                   MaterialPageRoute(
                       builder: (context) => InterruptorCicardiano()));
               //-------------------------------------
@@ -511,20 +472,70 @@ class Botoes extends StatelessWidget {
         Ink(
           child: IconButton(
             icon: Icon(Icons.phone_iphone),
-            color: Colors.greenAccent,
+            color: Colors.blue[400],
             iconSize: 40,
             onPressed: () {
-              //-------------------------------------
               Navigator.push(
                   context,
-                  //MaterialPageRoute(builder: (context) => SegundaPagina()));
                   MaterialPageRoute(
-                      builder: (context) => InterruptorCicardiano()));
-              //-------------------------------------
+                      builder: (context) => VapowaveSpace()));
             },
           ),
         ),
       ],
+    );
+  }
+}
+
+
+
+class Osmium extends StatefulWidget {
+  Osmium({Key key}) : super(key: key);
+
+  @override
+  _OsmiumState createState() => _OsmiumState();
+}
+
+class _OsmiumState extends State<Osmium> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              child: ListView(children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                        child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: SafeArea(
+                        child: Text(
+                          'Interfaces artesanais e interativas.',
+                          style: TextStyle(
+                              height: 1.5,
+                              fontSize: 16,
+                              fontFamily: 'pressP2',
+                              color: Colors.amber[600]),
+                        ),
+                      ),
+                    )),
+                    Container(
+                        height: 700,
+                        color: Colors.grey,
+                        child: FlareActor(
+                          'assets/flares/telaDeFundoAnimada.flr',
+                          animation: "glows",
+                        )),
+                  ],
+                ),
+              ]),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
