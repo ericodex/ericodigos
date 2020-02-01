@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,6 +16,7 @@ import 'package:flare_flutter/flare_controller.dart';
 
 import 'package:flip_card/flip_card.dart';
 import 'objetos_flare.dart';
+import 'sliderMola.dart';
 
 void main() async => runApp(MeuAplicativo());
 
@@ -28,7 +30,8 @@ class MeuAplicativo extends StatelessWidget {
             brightness: Brightness.dark,
             platform: TargetPlatform.iOS,
             backgroundColor: Colors.grey[800],
-            primaryColor: Colors.blueGrey,
+            primaryColor: Color.fromARGB(255, 34, 34, 34),
+            highlightColor: Color.fromARGB(255, 125, 222, 179),
             fontFamily: 'PressP2'),
         home: CustomSplash(
           imagePath: 'assets/ericodigosSplash.gif',
@@ -51,8 +54,6 @@ class EricodigosHome extends StatefulWidget {
 }
 
 class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
-  List<List<String>> randomizedContacts;
-
   ActorAnimation _loadingAnimation;
   ActorAnimation _successAnimation;
   ActorAnimation _pullAnimation;
@@ -145,7 +146,7 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                 floating: true,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Box(),
+                  child: Eric0d3Banner(),
                 ),
               ),
               CupertinoSliverRefreshControl(
@@ -195,7 +196,7 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
   }
 }
 
-class Box extends StatelessWidget {
+class Eric0d3Banner extends StatelessWidget {
   static final boxDecoration = BoxDecoration(
       color: Colors.black,
       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -368,7 +369,9 @@ class _CartoesApresentacaoState extends State<CartoesApresentacao> {
                         child: Text(
                           '10 anos de experiência em programação. \n\nFull-Stack, Dart, Python, Typescript, .net, flr, SQL, MongoDB, Dax, GIT, Qlikview, Pentaho, VBA e Excel.\n\nBach Wise Computation, TensorFlow e Keras.\n\nContatos no verso!',
                           style: TextStyle(
-                              fontSize: 12, height: 1.3, color: Colors.blue[100]),
+                              fontSize: 12,
+                              height: 1.3,
+                              color: Colors.blue[100]),
                         ),
                       ),
                     ),
@@ -432,8 +435,7 @@ class Botoes extends StatelessWidget {
               Navigator.push(
                   context,
                   //MaterialPageRoute(builder: (context) => SegundaPagina()));
-                  MaterialPageRoute(
-                      builder: (context) => InterruptorCicardiano()));
+                  MaterialPageRoute(builder: (context) => MinhaMola()));
               //-------------------------------------
             },
           ),
@@ -475,10 +477,8 @@ class Botoes extends StatelessWidget {
             color: Colors.blue[400],
             iconSize: 40,
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VapowaveSpace()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => VapowaveSpace()));
             },
           ),
         ),
@@ -486,8 +486,6 @@ class Botoes extends StatelessWidget {
     );
   }
 }
-
-
 
 class Osmium extends StatefulWidget {
   Osmium({Key key}) : super(key: key);
@@ -497,43 +495,109 @@ class Osmium extends StatefulWidget {
 }
 
 class _OsmiumState extends State<Osmium> {
+  String _animacaoZinha = '';
+  bool _verdade = true;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey[800],
         body: CustomScrollView(
           slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.transparent,
+              expandedHeight: 100,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Eric0d3Banner(),
+              ),
+            ),
             SliverFillRemaining(
               child: ListView(children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Container(
-                        child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: SafeArea(
-                        child: Text(
-                          'Interfaces artesanais e interativas.',
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 16,
-                              fontFamily: 'pressP2',
-                              color: Colors.amber[600]),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(14.0,0,14.0,10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Text(
+                              'Interfaces artesanais e interativas.',
+                              style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 12,
+                                  fontFamily: 'pressP2',
+                                  color: Colors.amber[600]),
+                            ),
+                          ),
                         ),
                       ),
-                    )),
+                    ),
                     Container(
-                        height: 700,
+                        height: 716,
                         color: Colors.grey,
                         child: FlareActor(
                           'assets/flares/telaDeFundoAnimada.flr',
-                          animation: "glows",
+                          animation: _animacaoZinha,
+                          isPaused: _verdade,
                         )),
                   ],
                 ),
               ]),
             )
           ],
+        ),
+        floatingActionButton: Align(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton.extended(
+            label: Row(
+              children: <Widget>[
+                IconButton(
+                  iconSize: 40,
+                  tooltip: 'Space!!!',
+                  icon: Icon(Icons.desktop_windows),
+                  color: Colors.amber[400],
+                  onPressed: () {
+                    setState(() {
+                      _animacaoZinha = 'glow';
+                      _verdade = false;
+                    }); 
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.device_hub),
+                  color: Colors.amber[400],
+                  iconSize: 40,
+                  onPressed: () {
+                    setState(() {
+                      _verdade = true;
+                    }); 
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.add_location),
+                  color: Colors.amber[400],
+                  iconSize: 40,
+                  onPressed: () {
+                    setState(() {
+                      _animacaoZinha = 'clear';
+                      _verdade = false;
+                    }); 
+                  },
+                ),
+              ],
+            ),
+
+            onPressed: () {},
+            //child: Icon(Icons.trip_origin),
+            backgroundColor: Colors.black,
+          ),
         ),
       ),
     );
