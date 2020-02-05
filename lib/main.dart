@@ -14,6 +14,10 @@ import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:flip_card/flip_card.dart';
 import 'objetos_flare.dart';
 import 'sliderMola.dart';
@@ -319,13 +323,18 @@ class _CartoesApresentacaoState extends State<CartoesApresentacao> {
                     child: Padding(
                       padding: const EdgeInsets.all(14.0),
                       child: Center(
-                        child: Text(
-                          'Engenheiro e arquiteto de Software. \n\nDesenvolvimento de sistemas Web Cross Plataform de base única.\n\nApps Android e IOS Nativos, Web Sites e aplicativos desktop programados com Dart e Flutter.\n\nSoluções arquitetadas, 100% customizaveis para um novo nível Business Intelligence.',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 12,
-                              height: 1.3,
-                              color: Colors.blue[100]),
+                        child: Container(
+                          height: 300,
+                          child: Text(
+                            'Engenheiro e arquiteto de Software. \n\nDesenvolvimento de sistemas Web Cross Plataform de base única.\n\nApps Android e IOS Nativos, Web Sites e aplicativos desktop programados com Dart e Flutter.\n\nSoluções arquitetadas, 100% customizáveis para um novo nível Business Intelligence.',
+                            textAlign: TextAlign.start,
+                            maxLines: 5,
+                            style: TextStyle(
+                                fontSize: 14,
+                                height: 1.3,
+                                color: Colors.blue[100]),
+                                
+                          ),
                         ),
                       ),
                     ),
@@ -419,8 +428,8 @@ class Botoes extends StatelessWidget {
             color: Colors.blue[400],
             onPressed: () {
               //-------------------------------------
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Osmium()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TestGooblyDoo()));
               //-------------------------------------
             },
           ),
@@ -463,10 +472,8 @@ class Botoes extends StatelessWidget {
             iconSize: 40,
             onPressed: () {
               //-------------------------------------
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => InterruptorCicardiano()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DeixeUmaMensagem()));
               //-------------------------------------
             },
           ),
@@ -487,119 +494,198 @@ class Botoes extends StatelessWidget {
   }
 }
 
-class Osmium extends StatefulWidget {
-  Osmium({Key key}) : super(key: key);
+/// Pagina para mensagem de recado registrado no firebase
+class DeixeUmaMensagem extends StatefulWidget {
+  DeixeUmaMensagem({Key key}) : super(key: key);
 
   @override
-  _OsmiumState createState() => _OsmiumState();
+  _DeixeUmaMensagemState createState() => _DeixeUmaMensagemState();
 }
 
-class _OsmiumState extends State<Osmium> {
-  String _animacaoZinha = '';
-  bool _verdade = true;
+
+class _DeixeUmaMensagemState extends State<DeixeUmaMensagem> {
+
+String _msg = '';
+
+final TextEditingController _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: Colors.grey[800],
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              backgroundColor: Colors.transparent,
-              expandedHeight: 100,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Eric0d3Banner(),
-              ),
-            ),
-            SliverFillRemaining(
-              child: ListView(children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(14.0,0,14.0,10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(18.0),
-                            child: Text(
-                              'Interfaces artesanais e interativas.',
-                              style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 12,
-                                  fontFamily: 'pressP2',
-                                  color: Colors.amber[600]),
-                            ),
-                          ),
-                        ),
+    return DefaultTextStyle(
+        style: const TextStyle(
+          fontFamily: '.SF UI Text',
+          inherit: false,
+          fontSize: 10.0,
+        ),
+        child: Scaffold(
+            body: DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: CustomScrollView(slivers: <Widget>[
+                  SliverAppBar(
+                    pinned: true,
+                    backgroundColor: Colors.transparent,
+                    expandedHeight: 100,
+                    floating: true,
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Eric0d3Banner(),
+                    ),
+                  ),
+                  SliverSafeArea(
+                    top:
+                        false, 
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                                child: Text(
+                                  'Deixe aqui sua mensagem para mim.',
+                                  style: TextStyle(
+                                      height: 1.3, color: Colors.greenAccent),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: TextField(
+                                      style: TextStyle(height: 1.6),
+                                      cursorColor: Colors.greenAccent,
+                                      cursorRadius: Radius.circular(16.0),
+                                      cursorWidth: 16.0,
+                                      obscureText: false,
+                                      maxLines: 5,
+                                      controller: _controller,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'mgs...',
+                                      ),
+                                      onChanged: (text) {
+                                        _msg = text;
+                                        
+  
+                                      }),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: RaisedButton(
+                                    color: Colors.greenAccent,
+                                    onPressed: () {
+                                      Firestore.instance.collection('Mensagem').document()
+  .setData({ 'msg': _msg});
+  _controller.clear();
+                                        
+                                    },
+                                    child: const Text(
+                                      'Registrar',
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.black),
+                                    
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                        childCount: 1,
                       ),
                     ),
-                    Container(
-                        height: 716,
-                        color: Colors.grey,
-                        child: FlareActor(
-                          'assets/flares/telaDeFundoAnimada.flr',
-                          animation: _animacaoZinha,
-                          isPaused: _verdade,
-                        )),
-                  ],
-                ),
-              ]),
-            )
-          ],
-        ),
-        floatingActionButton: Align(
-          alignment: Alignment.bottomCenter,
-          child: FloatingActionButton.extended(
-            label: Row(
-              children: <Widget>[
-                IconButton(
-                  iconSize: 40,
-                  tooltip: 'Space!!!',
-                  icon: Icon(Icons.desktop_windows),
-                  color: Colors.amber[400],
-                  onPressed: () {
-                    setState(() {
-                      _animacaoZinha = 'glow';
-                      _verdade = false;
-                    }); 
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.device_hub),
-                  color: Colors.amber[400],
-                  iconSize: 40,
-                  onPressed: () {
-                    setState(() {
-                      _verdade = true;
-                    }); 
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.add_location),
-                  color: Colors.amber[400],
-                  iconSize: 40,
-                  onPressed: () {
-                    setState(() {
-                      _animacaoZinha = 'clear';
-                      _verdade = false;
-                    }); 
-                  },
-                ),
-              ],
-            ),
+                  ),
+                ]))));
+  }
+}
 
-            onPressed: () {},
-            //child: Icon(Icons.trip_origin),
-            backgroundColor: Colors.black,
+// ------------------- teste areas -------------------
+
+class TestGooblyDoo extends StatefulWidget {
+  @override
+  _TestGooblyDooState createState() {
+    return _TestGooblyDooState();
+  }
+}
+
+class _TestGooblyDooState extends State<TestGooblyDoo> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Votação')),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text('Qual tecnologia você gostaria de ver no seu projeto?'),
           ),
+          Container(height: 400,
+            child: _buildBody(context)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('appName').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return _buildList(context, snapshot.data.documents);
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final record = Record.fromSnapshot(data);
+
+    return Padding(
+      key: ValueKey(record.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: Text(record.votes.toString()),
+          //onTap: () => record.reference.updateData({'votes': record.votes + 1}),
+          onTap: () => record.reference.updateData({'votes': FieldValue.increment(1)})
         ),
       ),
     );
   }
 }
+
+class Record {
+  final String name;
+  final int votes;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['name'] != null),
+        assert(map['votes'] != null),
+        name = map['name'],
+        votes = map['votes'];
+
+  Record.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$name:$votes>";
+}
+
+// ---------------------------  teste area --------------------------------------

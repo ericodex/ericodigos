@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1075165316304",
+    "firebase_url": "https://ericodigos-dfc59.firebaseio.com",
+    "project_id": "ericodigos-dfc59",
+    "storage_bucket": "ericodigos-dfc59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075165316304:android:63496fb63c9253ac23cad5",
+        "android_client_info": {
+          "package_name": "com.example.ericodigos_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075165316304-tek10mer4bancb8le7enl5egg368snuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR9ZYcYzNu7_zUxryUznGL0-f2frkwIy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075165316304-tek10mer4bancb8le7enl5egg368snuj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
