@@ -16,8 +16,6 @@ import 'package:flare_flutter/flare_controller.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:auto_size_text/auto_size_text.dart';
-
 import 'package:flip_card/flip_card.dart';
 import 'objetos_flare.dart';
 import 'sliderMola.dart';
@@ -31,8 +29,10 @@ class MeuAplicativo extends StatelessWidget {
     return MaterialApp(
         title: 'Ericódigos',
         theme: ThemeData(
+            platform: TargetPlatform.iOS, // Para o ScrollViewRefresh
             brightness: Brightness.dark,
-            platform: TargetPlatform.iOS,
+            primaryColorDark: Colors.grey[700],
+            primaryColorLight: Colors.grey[400],
             backgroundColor: Colors.grey[800],
             primaryColor: Color.fromARGB(255, 34, 34, 34),
             highlightColor: Color.fromARGB(255, 125, 222, 179),
@@ -43,7 +43,7 @@ class MeuAplicativo extends StatelessWidget {
           animationEffect: 'fade-in',
           logoSize: 200,
           home: EricodigosHome(),
-          duration: 4000,
+          duration: 3000,
           type: CustomSplashType.StaticDuration,
           outputAndHome: op,
         ));
@@ -51,8 +51,6 @@ class MeuAplicativo extends StatelessWidget {
 }
 
 class EricodigosHome extends StatefulWidget {
-  static const String routeName = '/cupertino/refresh';
-
   @override
   _EricodigosHomeState createState() => _EricodigosHomeState();
 }
@@ -62,6 +60,8 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
   ActorAnimation _successAnimation;
   ActorAnimation _pullAnimation;
   ActorAnimation _cometAnimation;
+
+  bool _hello = false;
 
   RefreshIndicatorMode _refreshState;
   double _pulledExtent;
@@ -133,67 +133,215 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
     return DefaultTextStyle(
       style: const TextStyle(
         fontFamily: '.SF UI Text',
-        inherit: false,
-        fontSize: 10.0,
+        inherit: true,
       ),
       child: Scaffold(
-        body: DecoratedBox(
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-          ),
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                pinned: true,
-                backgroundColor: Colors.transparent,
-                expandedHeight: 100,
-                floating: true,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Eric0d3Banner(),
-                ),
+        //backgroundColor: Colors.amber[800],
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
+              backgroundColor: Colors.transparent,
+              expandedHeight: 100,
+              floating: true,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Eric0d3Banner(),
               ),
-              CupertinoSliverRefreshControl(
-                refreshTriggerPullDistance: 150.0,
-                refreshIndicatorExtent: 150.0,
-                builder: buildRefreshWidget,
-                onRefresh: () {
-                  return Future<void>.delayed(const Duration(seconds: 5))
-                    ..then<void>((_) {
-                      if (mounted) {
-                        print('oinh Er1c0d3!');
-                      }
+            ),
+            CupertinoSliverRefreshControl(
+              refreshTriggerPullDistance: 150.0,
+              refreshIndicatorExtent: 150.0,
+              builder: buildRefreshWidget,
+              onRefresh: () {
+                return Future<void>.delayed(const Duration(seconds: 5))
+                  ..then<void>((_) {
+                    setState(() {
+                      _hello = !_hello;
                     });
-                },
-              ),
-              SliverSafeArea(
-                top: false, // Top safe area is consumed by the navigation bar.
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Column(
-                        children: <Widget>[
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Botoes(),
-                              ],
-                            ),
-                            color: Colors.black,
+                  });
+              },
+            ),
+            SliverSafeArea(
+              top: false,
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Botoes(),
+                            ],
                           ),
+                          color: Colors.grey[700],
+                        ),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                height: 15,
+                              ),
+                              SizedBox(
+                                height: 215,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+/*                                       _hello = !_hello;
+                                      print('annnnhhhhhh! ${_hello}'); */
+                                    });
+                                  },
+                                  child: AnimatedCrossFade(
+                                      firstChild: Container(
+                                        width: 200,
+                                        height: 200,
+                                        child: Center(child: Text('Hello!')),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.black38),
+                                      ),
+                                      secondChild: Container(
+                                          width: 200.0,
+                                          height: 200.0,
+                                          decoration: new BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: new DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: new NetworkImage(
+                                                      "https://avatars2.githubusercontent.com/u/32937165?s=460&v=4")))),
+                                      crossFadeState: _hello
+                                          ? CrossFadeState.showFirst
+                                          : CrossFadeState.showSecond,
+                                      duration: Duration(seconds: 3)),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 30),
+                                child: AspectRatio(
+                                  aspectRatio: 1.6180, //Golden Ratio
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        8.0, 0, 8.0, 8.0),
+                                    child: FlipCard(
+                                      direction:
+                                          FlipDirection.HORIZONTAL, // default
+                                      front: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(15),
+                                            )),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8.0, 8, 8.0, 8.0),
+                                          child: Center(
+                                            child: FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                //height: 500,
+                                                width: 1000,
+                                                child: Text(
+                                                  'Olá sou Eric Oliveira Lima, engenheiro e arquiteto de Software. \n\nTrabalho planejando, desenvolvendo e aperfeiçoando sistemas Web multiplataforma e sistemas de informações.\n\nDesenvolvimento rápido e de baixo custo para Android, IOS nativos, Windows Desktop e web utilizando tecnologia Dart & Flutter.\n\nSoluções interamente customizáveis para um novo nível Business Intelligence.',
+                                                  textAlign: TextAlign.start,
+                                                  softWrap: true,
+                                                  style: TextStyle(
+                                                      fontSize: 26,
+                                                      height: 1.3,
+                                                      color: Colors.blue[100]),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      back: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              height: 300,
+                                              child: Capibara(),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
 
-                          /// -> Cartões
-                          CartoesApresentacao(),
-                        ],
-                      );
-                    },
-                    childCount: 1,
-                  ),
+                              //
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 30),
+                                child: AspectRatio(
+                                  aspectRatio: 1.6180,
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(8,0,8,8),
+                                    child: FlipCard(
+                                      direction:
+                                          FlipDirection.VERTICAL, // default
+                                      front: Container(
+                                        height: 400,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(8,8,8,8),
+                                          child: Center(
+                                            child: FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                width: 1000,
+                                                //height: 200,
+                                                                                              child: Text(
+                                                  '10 anos de experiência em programação. \n\nFull-Stack, Dart, Python, Typescript, .net, flr, SQL, MongoDB, Dax, GIT, Qlikview, Pentaho, VBA e Excel.\n\nBach Wise Computation, TensorFlow e Keras.\n\nContatos no verso!',
+                                                  style: TextStyle(
+                                                      fontSize: 26,
+                                                      height: 1.3,
+                                                      color: Colors.blue[100]),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      back: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.black87,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: Center(
+                                          child: Text(
+                                            'Eric Oliveira Lima\n\nericol@outlook.com.br\n\n+55 034 988047387',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(color: Colors.amber),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  childCount: 1,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -293,118 +441,21 @@ class TypewriterText extends StatelessWidget {
   }
 }
 
-class CartoesApresentacao extends StatefulWidget {
+/* class CartoesApresentacao extends StatefulWidget {
   CartoesApresentacao({Key key}) : super(key: key);
 
   @override
-  _CartoesApresentacaoState createState() => _CartoesApresentacaoState();
+  _CartoesApresentacaoState createState() => new _CartoesApresentacaoState();
 }
 
 class _CartoesApresentacaoState extends State<CartoesApresentacao> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
-            child: AspectRatio(
-              aspectRatio: 9 / 9,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                child: FlipCard(
-                  direction: FlipDirection.HORIZONTAL, // default
-                  front: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        )),
-                    child: Padding(
-                      padding: const EdgeInsets.all(14.0),
-                      child: Center(
-                        child: Container(
-                          height: 300,
-                          child: Text(
-                            'Engenheiro e arquiteto de Software. \n\nDesenvolvimento de sistemas Web Cross Plataform de base única.\n\nApps Android e IOS Nativos, Web Sites e aplicativos desktop programados com Dart e Flutter.\n\nSoluções arquitetadas, 100% customizáveis para um novo nível Business Intelligence.',
-                            textAlign: TextAlign.start,
-                            maxLines: 5,
-                            style: TextStyle(
-                                fontSize: 14,
-                                height: 1.3,
-                                color: Colors.blue[100]),
-                                
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  back: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 300,
-                          child: Capibara(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          //
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
-            child: AspectRatio(
-              aspectRatio: 11 / 9,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FlipCard(
-                  direction: FlipDirection.VERTICAL, // default
-                  front: Container(
-                    height: 400,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(14.0),
-                      child: Center(
-                        child: Text(
-                          '10 anos de experiência em programação. \n\nFull-Stack, Dart, Python, Typescript, .net, flr, SQL, MongoDB, Dax, GIT, Qlikview, Pentaho, VBA e Excel.\n\nBach Wise Computation, TensorFlow e Keras.\n\nContatos no verso!',
-                          style: TextStyle(
-                              fontSize: 12,
-                              height: 1.3,
-                              color: Colors.blue[100]),
-                        ),
-                      ),
-                    ),
-                  ),
-                  back: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        'Eric Oliveira Lima\n\nericol@outlook.com.br\n\n+55 034 988047387',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return ;
   }
-}
+  // -- Cartões de visita?
+
+} */
 
 class Botoes extends StatelessWidget {
   Botoes({Key key}) : super(key: key);
@@ -502,12 +553,10 @@ class DeixeUmaMensagem extends StatefulWidget {
   _DeixeUmaMensagemState createState() => _DeixeUmaMensagemState();
 }
 
-
 class _DeixeUmaMensagemState extends State<DeixeUmaMensagem> {
+  String _msg = '';
 
-String _msg = '';
-
-final TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -534,8 +583,7 @@ final TextEditingController _controller = new TextEditingController();
                     ),
                   ),
                   SliverSafeArea(
-                    top:
-                        false, 
+                    top: false,
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
@@ -567,8 +615,6 @@ final TextEditingController _controller = new TextEditingController();
                                       ),
                                       onChanged: (text) {
                                         _msg = text;
-                                        
-  
                                       }),
                                 ),
                               ),
@@ -578,16 +624,16 @@ final TextEditingController _controller = new TextEditingController();
                                   child: RaisedButton(
                                     color: Colors.greenAccent,
                                     onPressed: () {
-                                      Firestore.instance.collection('Mensagem').document()
-  .setData({ 'msg': _msg});
-  _controller.clear();
-                                        
+                                      Firestore.instance
+                                          .collection('Mensagem')
+                                          .document()
+                                          .setData({'msg': _msg});
+                                      _controller.clear();
                                     },
                                     child: const Text(
                                       'Registrar',
                                       style: TextStyle(
                                           fontSize: 14, color: Colors.black),
-                                    
                                     ),
                                   ),
                                 ),
@@ -623,8 +669,7 @@ class _TestGooblyDooState extends State<TestGooblyDoo> {
             padding: const EdgeInsets.all(18.0),
             child: Text('Qual tecnologia você gostaria de ver no seu projeto?'),
           ),
-          Container(height: 400,
-            child: _buildBody(context)),
+          Container(height: 400, child: _buildBody(context)),
         ],
       ),
     );
@@ -660,11 +705,11 @@ class _TestGooblyDooState extends State<TestGooblyDoo> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-          title: Text(record.name),
-          trailing: Text(record.votes.toString()),
-          //onTap: () => record.reference.updateData({'votes': record.votes + 1}),
-          onTap: () => record.reference.updateData({'votes': FieldValue.increment(1)})
-        ),
+            title: Text(record.name),
+            trailing: Text(record.votes.toString()),
+            //onTap: () => record.reference.updateData({'votes': record.votes + 1}),
+            onTap: () => record.reference
+                .updateData({'votes': FieldValue.increment(1)})),
       ),
     );
   }

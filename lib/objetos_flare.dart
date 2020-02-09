@@ -98,13 +98,13 @@ class _CapibaraState extends State<Capibara> {
               children: <Widget>[
                 Container(
                     child: Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: SafeArea(
                     child: Text(
-                      'Ilustrações artesanais interativas com a tecnologia Flare.',
+                      'Também faço ilustrações digitais interativas com a tecnologia Flare.',
                       style: TextStyle(
-                          height: 1.5,
-                          fontSize: 11,
+                          height: 1.3,
+                          fontSize: 10,
                           fontFamily: 'pressP2',
                           color: Colors.amber[600]),
                     ),
