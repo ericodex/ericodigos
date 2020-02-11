@@ -17,8 +17,8 @@ dependencies:
   firebase: ^7.2.1
   firebase_core: ^0.4.0+9
   cloud_firestore: ^0.13.0+1
-
-
+  badges: ^1.1.0
+  animated_text_kit: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +45,12 @@ flutter:
     - assets/flares/telaDeFundoAnimada.flr
     - assets/flares/capivara.flr
     - assets/img/perfil.jpg
+    - assets/flares/NeuralNet.flr
+    - assets/flares/MSI.flr
+    - assets/flares/CrossPlataformIcon.flr
+    - assets/flares/InfoSystem.flr
+    - assets/flares/DataRain.flr
+    
   fonts:
     - family: PressP2
       fonts:

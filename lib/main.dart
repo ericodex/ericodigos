@@ -15,10 +15,15 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:badges/badges.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+//import 'package:provider/provider.dart';
 
 import 'package:flip_card/flip_card.dart';
 import 'objetos_flare.dart';
 import 'sliderMola.dart';
+
+
 
 void main() async => runApp(MeuAplicativo());
 
@@ -28,22 +33,23 @@ class MeuAplicativo extends StatelessWidget {
     Map<int, Widget> op = {1: EricodigosHome(), 2: EricodigosHome()};
     return MaterialApp(
         title: 'Ericódigos',
+        //theme: Provider.of<ThemeModel>(context).currentTheme,
         theme: ThemeData(
             platform: TargetPlatform.iOS, // Para o ScrollViewRefresh
+            primaryColorLight: Colors.pink,
             brightness: Brightness.dark,
             primaryColorDark: Colors.grey[700],
-            primaryColorLight: Colors.grey[400],
             backgroundColor: Colors.grey[800],
             primaryColor: Color.fromARGB(255, 34, 34, 34),
             highlightColor: Color.fromARGB(255, 125, 222, 179),
-            fontFamily: 'PressP2'),
+            fontFamily: 'PressP2'), 
         home: CustomSplash(
           imagePath: 'assets/ericodigosSplash.gif',
           backGroundColor: Colors.black,
           animationEffect: 'fade-in',
           logoSize: 200,
           home: EricodigosHome(),
-          duration: 3000,
+          duration: 4000,
           type: CustomSplashType.StaticDuration,
           outputAndHome: op,
         ));
@@ -158,6 +164,7 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                   ..then<void>((_) {
                     setState(() {
                       _hello = !_hello;
+
                     });
                   });
               },
@@ -284,7 +291,8 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                                 child: AspectRatio(
                                   aspectRatio: 1.6180,
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(8,0,8,8),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 0, 8, 8),
                                     child: FlipCard(
                                       direction:
                                           FlipDirection.VERTICAL, // default
@@ -295,14 +303,15 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15))),
                                         child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(8,8,8,8),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 8, 8, 8),
                                           child: Center(
                                             child: FittedBox(
                                               fit: BoxFit.cover,
                                               child: SizedBox(
                                                 width: 1000,
                                                 //height: 200,
-                                                                                              child: Text(
+                                                child: Text(
                                                   '10 anos de experiência em programação. \n\nFull-Stack, Dart, Python, Typescript, .net, flr, SQL, MongoDB, Dax, GIT, Qlikview, Pentaho, VBA e Excel.\n\nBach Wise Computation, TensorFlow e Keras.\n\nContatos no verso!',
                                                   style: TextStyle(
                                                       fontSize: 26,
@@ -323,7 +332,8 @@ class _EricodigosHomeState extends State<EricodigosHome> with FlareController {
                                           child: Text(
                                             'Eric Oliveira Lima\n\nericol@outlook.com.br\n\n+55 034 988047387',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(color: Colors.amber),
+                                            style:
+                                                TextStyle(color: Colors.amber),
                                           ),
                                         ),
                                       ),
@@ -467,29 +477,42 @@ class Botoes extends StatelessWidget {
     )
   ]);
 
+
+  bool _botao1 = false;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Ink(
           child: IconButton(
-            iconSize: 40,
-            tooltip: 'Space!!!',
-            icon: Icon(Icons.android),
+            iconSize: 50,
+            tooltip: 'Votação!!',            
+            icon: FlareActor("assets/flares/NeuralNet.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: _botao1 ? 'click' : null),
             color: Colors.blue[400],
             onPressed: () {
               //-------------------------------------
+              
+              _botao1 = !_botao1;
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TestGooblyDoo()));
+                  MaterialPageRoute(builder: (context) => TestGooblyDoo())); // Votação
               //-------------------------------------
             },
           ),
         ),
         Ink(
           child: IconButton(
-            icon: Icon(Icons.cloud_upload),
+            tooltip: 'Mola!!',
+            icon: FlareActor("assets/flares/MSI.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+
+                  animation: null),
             color: Colors.blue[400],
-            iconSize: 40,
+            iconSize: 50,
             onPressed: () {
               //-------------------------------------
               Navigator.push(
@@ -502,9 +525,13 @@ class Botoes extends StatelessWidget {
         ),
         Ink(
           child: IconButton(
-            icon: Icon(Icons.fiber_new),
+            icon: FlareActor("assets/flares/CrossPlataformIcon.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+
+                  animation: null),
             color: Colors.blue[400],
-            iconSize: 40,
+            iconSize: 50,
             onPressed: () {
               //-------------------------------------
               Navigator.push(
@@ -518,9 +545,13 @@ class Botoes extends StatelessWidget {
         ),
         Ink(
           child: IconButton(
-            icon: Icon(Icons.code),
+            icon: FlareActor("assets/flares/InfoSystem.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+
+                  animation: null),
             color: Colors.blue[400],
-            iconSize: 40,
+            iconSize: 50,
             onPressed: () {
               //-------------------------------------
               Navigator.push(context,
@@ -531,9 +562,13 @@ class Botoes extends StatelessWidget {
         ),
         Ink(
           child: IconButton(
-            icon: Icon(Icons.phone_iphone),
+            icon: FlareActor("assets/flares/DataRain.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+
+                  animation: null),
             color: Colors.blue[400],
-            iconSize: 40,
+            iconSize: 50,
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => VapowaveSpace()));
@@ -662,16 +697,37 @@ class _TestGooblyDooState extends State<TestGooblyDoo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Votação')),
-      body: Column(
+      appBar: AppBar(
+        
+        title: ColorizeAnimatedTextKit(
+                  text: ['Votação'],
+                  textStyle: TextStyle(
+                      fontSize: 24.0, 
+                  ),
+                  colors: [
+                    Colors.purple,
+                    Colors.blue,
+                    Colors.yellow,
+                    Colors.red,
+                  ],
+                  textAlign: TextAlign.start,
+                  alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+                ),
+
+        ),
+      body: ListView(
+        children: <Widget>[
+          Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text('Qual tecnologia você gostaria de ver no seu projeto?'),
+            padding: const EdgeInsets.fromLTRB(10,10,10,0),
+            child: Text('\nVote na sua tecnologia preferida, o resultado será atualizado automaticamente para todos observadores:'),
           ),
           Container(height: 400, child: _buildBody(context)),
         ],
       ),
+        ],
+      )
     );
   }
 
@@ -698,15 +754,30 @@ class _TestGooblyDooState extends State<TestGooblyDoo> {
 
     return Padding(
       key: ValueKey(record.name),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
+          border: Border.all(color: Colors.yellow),
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-            title: Text(record.name),
-            trailing: Text(record.votes.toString()),
+          // ---------- inserção color text!!
+            title: Text(record.name, style: TextStyle(color: Colors.purple[400]),),
+            
+
+             
+          // ---------------------------------
+
+            trailing: Badge(
+              badgeContent: Text(record.votes.toString()),
+              shape: BadgeShape.square,
+              badgeColor: Colors.deepPurple,
+              borderRadius: 20,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0,0,30,0),
+                child: Icon(Icons.add),
+              ),
+            ),
             //onTap: () => record.reference.updateData({'votes': record.votes + 1}),
             onTap: () => record.reference
                 .updateData({'votes': FieldValue.increment(1)})),

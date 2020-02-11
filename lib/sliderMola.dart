@@ -14,6 +14,7 @@ class MinhaMola extends StatefulWidget {
 }
 
 class _MinhaMolaState extends State<MinhaMola> {
+
   Widget _buildTextButton(String title, bool isOnLight) {
     return new FlatButton(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
@@ -26,7 +27,7 @@ class _MinhaMolaState extends State<MinhaMola> {
                 : Theme.of(context).primaryColor,
           )),
       onPressed: () {
-        // TODO:
+        print('gostei...');
       },
     );
   }
@@ -42,14 +43,15 @@ class _MinhaMolaState extends State<MinhaMola> {
                   padding: const EdgeInsets.all(10.0),
                   child: Eric0d3Banner(),
                 ),
-          backgroundColor: Theme.of(context).primaryColor,
-          elevation: 100,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           brightness: Brightness.light,
           iconTheme: new IconThemeData(color: Theme.of(context).highlightColor),
           leading: new IconButton(
             icon: new Icon(Icons.favorite),
             onPressed: () {
-              // TODO:
+
+              
             },
           ),
           actions: <Widget>[_buildTextButton('@'.toUpperCase(), true)],
@@ -214,7 +216,6 @@ class _SliderDraggerState extends State<SliderDragger> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -389,7 +390,6 @@ class SliderMarksPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
     return true;
   }
 }
@@ -411,11 +411,11 @@ class SliderClipper extends CustomClipper<Path> {
       case SpringSliderState.springing:
         return _clipSpringing(size);
     }
+    return null;
   }
 
   @override
   bool shouldReclip(CustomClipper<prefix0.Path> oldClipper) {
-    // TODO: implement shouldReclip
     return true;
   }
 
@@ -609,7 +609,7 @@ class SliderPoints extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         double sliderPercent = sliderController.sliderValue ;
         if ( sliderController.state == SpringSliderState.dragging){
-          sliderPercent =  sliderController.draggingPercent.clamp(0.0, 1.0);
+          sliderPercent =  sliderController.draggingPercent.clamp(0.0001, 1.0);
         }
 
         final height = constraints.maxHeight - paddingTop - paddingBottom;
@@ -668,7 +668,7 @@ class Points extends StatelessWidget {
           isAboveSlider ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: <Widget>[
         FractionalTranslation(
-          translation: Offset(-0.05 * percent, isAboveSlider ? 0.18 : -0.18),
+          translation: Offset(-0.05 * percent, isAboveSlider ? -100 : -0.18),
           child: new Text(
             "$points",
             style: new TextStyle(
@@ -688,10 +688,10 @@ class Points extends StatelessWidget {
                 child: Text(
                   'Pontos',
                   style:
-                      new TextStyle(fontWeight: FontWeight.bold, color: color),
+                      new TextStyle(fontWeight: FontWeight.bold, color: isAboveSlider ? color : Colors.transparent),
                 ),
               ),
-              new Text(isPointsYouNeed ? '^.^' : 'T.T',
+              new Text(isPointsYouNeed ? '^.^' : '',
                   style:
                       new TextStyle(fontWeight: FontWeight.bold, color: color))
             ],
@@ -807,7 +807,7 @@ class SpringySliderController extends ChangeNotifier {
     _sliderPercent = _springEndPercent;
 
     _startSpringing();
-
+    print(_sliderPercent);
     notifyListeners();
   }
 
@@ -837,7 +837,7 @@ class SpringySliderController extends ChangeNotifier {
   }
 
   void _springTick(Duration deltaTime) {
-    final lastFrameTime = deltaTime.inMilliseconds.toDouble() / 1000.0;
+    final lastFrameTime = deltaTime.inMilliseconds.toDouble() / 1680.0;
 
     _springTime += lastFrameTime;
     _springingPercent = _sliderSpringSimulation.x(_springTime);

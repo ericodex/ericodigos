@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
-
+import 'main.dart';
 /// --- VAPORWAVE FLARE FILE
 
 class VapowaveSpace extends StatefulWidget {
@@ -19,23 +19,25 @@ class _VapowaveSpaceState extends State<VapowaveSpace> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(8.0,18.0,8.0,8.0),
+              padding: const EdgeInsets.fromLTRB(8.0, 18.0, 8.0, 8.0),
               child: Container(
                 decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        )),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    )),
                 child: Padding(
                   padding: const EdgeInsets.all(18.0),
-                  child: Text('Atuações nas áreas de finanças e tecnologia de empresas como Bradesco Cartões, Algar Tecnologia, Alsol e Up Brasil.',
-                  style: TextStyle(color: Colors.deepPurpleAccent[900],
-                  height: 1.4),
+                  child: Text(
+                    'Atuações nas áreas de finanças e tecnologia de empresas como Bradesco Cartões, Algar Tecnologia, Alsol e Up Brasil.',
+                    style: TextStyle(
+                        color: Colors.deepPurpleAccent[900], height: 1.4),
                   ),
                 ),
               ),
             ),
-            Container(height: 300,
+            Container(
+              height: 300,
               child: FlareActor("assets/flares/space_vaporwave.flr",
                   alignment: Alignment.center,
                   fit: BoxFit.contain,
@@ -55,19 +57,24 @@ class InterruptorCicardiano extends StatefulWidget {
   _InterruptorCicardianoState createState() => _InterruptorCicardianoState();
 }
 
-String _diaOuNoite = 'day_idle';
+
 
 class _InterruptorCicardianoState extends State<InterruptorCicardiano> {
+  String _diaOuNoite = 'switch_night';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        
         setState(() {
-          if (_diaOuNoite == 'day_idle') {
-            _diaOuNoite = 'night_idle';
+          
+          if (_diaOuNoite == 'switch_day') {
+            _diaOuNoite = 'switch_day';
           } else {
-            _diaOuNoite = 'day_idle';
+            _diaOuNoite = 'switch_night';
           }
+          //
         });
       },
       child: Container(
